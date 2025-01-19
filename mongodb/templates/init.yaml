@@ -1,0 +1,12 @@
+# the user credentials will be generated from this secret
+# once the credentials are generated, this secret is no longer required
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-user-password
+  annotations:
+    argocd.argoproj.io/sync-wave: "-8"
+type: Opaque
+stringData:
+  password: {{ .Values.deploy.mdbPassword }}
