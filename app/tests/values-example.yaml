@@ -11,7 +11,7 @@ services:
     svcNamespace: mongodb
     valueRepoUrl: https://github.com/tuthan/multi-cloud-agnostic-sample.git
     valueBranch: main
-    yamlPath: k8s/mongodb-operator/
+    yamlPath: mongodb-operator/
     syncWave: "-5"
   mongodb:
     fullName: mongodb
@@ -21,5 +21,5 @@ services:
     svcNamespace: mongodb
     valueRepoUrl: https://github.com/tuthan/multi-cloud-agnostic-sample.git
     valueBranch: main
-    yamlPath: k8s/mongodb/
+    yamlPath: mongodb/
     syncWave: "-1"

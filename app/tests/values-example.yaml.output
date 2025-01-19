@@ -17,7 +17,7 @@ spec:
   sources:
     - repoURL: https://github.com/tuthan/argocd-app-templates.git
       targetRevision: main
-      path: k8s/mongodb/
+      path: mongodb/
       helm:
         valueFiles:
           - "$values/k8s/mongodb/values.yaml"
@@ -44,7 +44,7 @@ spec:
   sources:
     - repoURL: https://github.com/tuthan/argocd-app-templates.git
       targetRevision: main
-      path: k8s/mongodb-operator/
+      path: mongodb-operator/
       helm:
         valueFiles:
           - "$values/k8s/mongodb-operator/values.yaml"
