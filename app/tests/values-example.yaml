@@ -3,8 +3,8 @@ cloud:
 enabled: true
 appsFolder: k8s
 services:
-  mongodb-operator:
-    fullName: mongodb-operator
+  mongodb-operator-app:
+    fullName: mongodb-operator-app
     argocdProject: mcas
     repoBranch: main
     repoUrl: https://github.com/tuthan/argocd-app-templates.git
@@ -13,8 +13,8 @@ services:
     valueBranch: main
     yamlPath: mongodb-operator/
     syncWave: "-5"
-  mongodb:
-    fullName: mongodb
+  mongodb-app:
+    fullName: mongodb-app
     argocdProject: mcas
     repoBranch: main
     repoUrl: https://github.com/tuthan/argocd-app-templates.git

@@ -3,7 +3,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "mongodb"
+  name: "mongodb-app"
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -20,8 +20,8 @@ spec:
       path: mongodb/
       helm:
         valueFiles:
-          - "$values/k8s/mongodb/values.yaml"
-          - "$values/k8s/mongodb/version.yaml"
+          - "$values/k8s/mongodb-app/values.yaml"
+          - "$values/k8s/mongodb-app/version.yaml"
     - repoURL: "https://github.com/tuthan/multi-cloud-agnostic-sample.git"
       targetRevision: main
       ref: values
@@ -30,7 +30,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "mongodb-operator"
+  name: "mongodb-operator-app"
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -47,8 +47,8 @@ spec:
       path: mongodb-operator/
       helm:
         valueFiles:
-          - "$values/k8s/mongodb-operator/values.yaml"
-          - "$values/k8s/mongodb-operator/version.yaml"
+          - "$values/k8s/mongodb-operator-app/values.yaml"
+          - "$values/k8s/mongodb-operator-app/version.yaml"
     - repoURL: "https://github.com/tuthan/multi-cloud-agnostic-sample.git"
       targetRevision: main
       ref: values
