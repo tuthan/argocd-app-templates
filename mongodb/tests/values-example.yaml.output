@@ -1,18 +1,29 @@
 ---
-# Source: mongodb-operator/templates/mongodb.yaml
+# Source: mongodb-operator/templates/init.yaml
 apiVersion: v1
 kind: Secret
 metadata:
   name: my-user-password
+  labels:
+    app.kubernetes.io/name: argocd-secret
+    app.kubernetes.io/part-of: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-8"
 type: Opaque
-stringData:
+data:
   password: changeme
+---
+# Source: mongodb-operator/templates/init.yaml
+# the user credentials will be generated from this secret
+# once the credentials are generated, this secret is no longer required
 ---
 # Source: mongodb-operator/templates/mongodb.yaml
 apiVersion: mongodbcommunity.mongodb.com/v1
 kind: MongoDBCommunity
 metadata:
   name: mongodb
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   members: 3
   type: ReplicaSet
@@ -33,6 +44,3 @@ spec:
       scramCredentialsSecretName: my-scram
   additionalMongodConfig:
     storage.wiredTiger.engineConfig.journalCompressor: zlib
-
-# the user credentials will be generated from this secret
-# once the credentials are generated, this secret is no longer required
