@@ -1,0 +1,49 @@
+{{- $deployEnv := .Values.cloud.name }}
+{{- $appsFolder := (.Values.appsFolder | default (printf "svc-%s" $deployEnv )) }}
+
+{{- if (ne $.Values.enabled false) }}
+{{- range $service, $val := .Values.services }}
+
+{{- $appName := .fullName }}
+{{- if $.Values.suffix }}
+{{- $appName = printf "%s-%s" .fullName $.Values.suffix }}
+{{- end }}
+
+{{- $valueFiles := list "values.yaml" "version.yaml" }}
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "{{ $appName }}"
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ .syncWave | default "0" | quote }}
+spec:
+  destination:
+    namespace: {{ .svcNamespace }}
+    name: 'in-cluster'
+  project: {{ .argocdProject }}
+  sources:
+    - repoURL: {{ .repoUrl }}
+      targetRevision: {{ .repoBranch }}
+      path: {{ .yamlPath }}
+      helm:
+        valueFiles:
+        {{- range $file := $valueFiles }}
+          - "$values/{{ $appsFolder }}/{{ $val.fullName }}/{{ $file }}"
+        {{- end }}
+    - repoURL: {{ .valueRepoUrl | quote }}
+      targetRevision: {{ .valueBranch }}
+      ref: values
+    {{- end }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      # When syncing changes, respect fields ignored by the ignoreDifferences configuration
+      - RespectIgnoreDifferences=true
+{{- end }}

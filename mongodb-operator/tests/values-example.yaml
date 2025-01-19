@@ -1,0 +1,5 @@
+deploy:
+  chartRepoUrl: "https://mongodb.github.io/helm-charts"
+  chartRevision: "0.12.0"
+  namespace: mongodb
+

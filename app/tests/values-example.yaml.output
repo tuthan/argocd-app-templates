@@ -1,0 +1,61 @@
+---
+# Source: applications/templates/argocd-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "mongodb"
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  destination:
+    namespace: mongodb
+    name: 'in-cluster'
+  project: mcas
+  sources:
+    - repoURL: https://github.com/tuthan/argocd-app-templates.git
+      targetRevision: main
+      path: k8s/mongodb/
+      helm:
+        valueFiles:
+          - "$values/k8s/mongodb/values.yaml"
+          - "$values/k8s/mongodb/version.yaml"
+    - repoURL: "https://github.com/tuthan/multi-cloud-agnostic-sample.git"
+      targetRevision: main
+      ref: values
+---
+# Source: applications/templates/argocd-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "mongodb-operator"
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
+spec:
+  destination:
+    namespace: mongodb
+    name: 'in-cluster'
+  project: mcas
+  sources:
+    - repoURL: https://github.com/tuthan/argocd-app-templates.git
+      targetRevision: main
+      path: k8s/mongodb-operator/
+      helm:
+        valueFiles:
+          - "$values/k8s/mongodb-operator/values.yaml"
+          - "$values/k8s/mongodb-operator/version.yaml"
+    - repoURL: "https://github.com/tuthan/multi-cloud-agnostic-sample.git"
+      targetRevision: main
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      # When syncing changes, respect fields ignored by the ignoreDifferences configuration
+      - RespectIgnoreDifferences=true

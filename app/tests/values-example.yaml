@@ -1,0 +1,25 @@
+cloud:
+  name: "local"
+enabled: true
+appsFolder: k8s
+services:
+  mongodb-operator:
+    fullName: mongodb-operator
+    argocdProject: mcas
+    repoBranch: main
+    repoUrl: https://github.com/tuthan/argocd-app-templates.git
+    svcNamespace: mongodb
+    valueRepoUrl: https://github.com/tuthan/multi-cloud-agnostic-sample.git
+    valueBranch: main
+    yamlPath: k8s/mongodb-operator/
+    syncWave: "-5"
+  mongodb:
+    fullName: mongodb
+    argocdProject: mcas
+    repoBranch: main
+    repoUrl: https://github.com/tuthan/argocd-app-templates.git
+    svcNamespace: mongodb
+    valueRepoUrl: https://github.com/tuthan/multi-cloud-agnostic-sample.git
+    valueBranch: main
+    yamlPath: k8s/mongodb/
+    syncWave: "-1"

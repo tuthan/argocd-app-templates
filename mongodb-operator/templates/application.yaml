@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mongodb-operator
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: mcas
+  sources:
+    - repoURL: {{ .Values.deploy.chartRepoUrl }}
+      chart: community-operator
+      targetRevision: {{ .Values.deploy.chartRevision }}
+  destination:
+    name: ""
+    namespace: {{ .Values.deploy.namespace }}
+    server: "https://kubernetes.default.svc"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PruneLast=true
