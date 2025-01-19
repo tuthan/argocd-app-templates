@@ -5,8 +5,11 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: my-user-password
+  labels:
+    app.kubernetes.io/name: argocd-secret
+    app.kubernetes.io/part-of: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-8"
 type: Opaque
-stringData:
+data:
   password: {{ .Values.deploy.mdbPassword }}
