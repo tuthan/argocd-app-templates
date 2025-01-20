@@ -1,12 +1,12 @@
 # ArgoCD Helm Template MCAS project
+This is the template that after boostrap by using terraform/opentofu, the Argocd from this repo https://github.com/tuthan/multi-cloud-agnostic-sample/ will use as one of deployment source
 ![Alt text](images/argocd.png?raw=true "Argocd")
-This repository provides a sample ArgoCD Helm template designed to support app-in-app deployment. It includes essential components for a scalable, observable, and secure Kubernetes-based architecture.
 
 ## Features
 ![Alt text](images/argocd-app-in-app.png?raw=true "Diagram")
 ### 🌟 Core Components
 - **MongoDB Operator**: Manages MongoDB clusters on Kubernetes.
-- **MongoDB**: A highly available MongoDB database instance.
+- **MongoDB**: A highly available MongoDB database cluster.
 - **Sample Application**: A demo application has frontend and backend that connect to mongodb.
 
 ### 📊 Observability
@@ -24,15 +24,16 @@ This repository provides a sample ArgoCD Helm template designed to support app-i
 
 ## Repository Structure
 ```
+├── app/
 ├── mongodb-operator/
 ├── mongodb/
-├── sample-application/
+├── mdb-sample-app/
 ├── prometheus/
 ├── elasticsearch/
 ├── grafana/
 ├── fluentd/
 ├── db-backup/
-├── cert-mgmt/
+├── images/
 ├── run-test.sh
 └── README.md
 ```
@@ -52,13 +53,13 @@ This repository provides a sample ArgoCD Helm template designed to support app-i
    cd argocd-helm-template
    ```
 
-2. Customize the `values.yaml` file to match your environment and requirements. See https://github.com/tuthan/multi-cloud-agnostic-sample/tree/main/k8s 
+2. Customize the `values.yaml` or/and `version.yaml` file to match your environment and requirements. See https://github.com/tuthan/multi-cloud-agnostic-sample/tree/main/k8s 
 
 3. Deploy the application with ArgoCD. See https://github.com/tuthan/multi-cloud-agnostic-sample/
 
 ### 🔗 Accessing Components
 
-- **MongoDB Dashboard**: Access the MongoDB Operator dashboard via port-forwarding or a configured Ingress.
+- **MongoDB**: Access the MongoDB via port-forwarding or a configured Ingress.
 - **Prometheus/Grafana Dashboards**: URLs for dashboards can be set up using Ingress resources.
 - **Sample Application**: Access your application using the LoadBalancer or Ingress IP.
 
