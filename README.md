@@ -1,5 +1,7 @@
 # ArgoCD Helm Template MCAS project
-This is the template that after boostrap by using terraform/opentofu, the Argocd from this repo https://github.com/tuthan/multi-cloud-agnostic-sample/ will use as one of deployment source
+
+This repository contains Helm templates for ArgoCD. After being bootstrapped using Terraform/OpenTofu, it serves as one of the deployment sources. More details please visit https://github.com/tuthan/multi-cloud-agnostic-sample/.
+
 ![Alt text](images/argocd.png?raw=true "Argocd")
 
 ## Features
