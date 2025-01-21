@@ -1,5 +1,5 @@
 ---
-# Source: mongodb-operator/templates/job.yaml
+# Source: mongodb-backup/templates/job.yaml
 apiVersion: batch/v1
 kind: CronJob
 metadata:
