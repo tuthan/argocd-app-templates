@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mongodb-backup
+spec:
+  schedule: "0 2 * * *" # Runs at 2:00 AM every day
+  concurrencyPolicy: Forbid # Ensures only one instance runs at a time
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: mongodb-backup
+            image: mongo:latest # Replace with a backup image if required
+            command:
+              - /bin/sh
+              - -c
+              - >
+                mongodump --uri=$MONGO_CONNECTION_STRING --archive=/backup/mongodb-$(date +%Y%m%d%H%M%S).gz && 
+                echo "Backup completed" #Add script to sync to cloud storage here
+            env:
+            - name: MONGO_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name:  {{ .Values.deploy.mdbConnectionSecret }}
+                  key: connectionString.standard
+            volumeMounts:
+            - name: backup-volume
+              mountPath: /backup
+          restartPolicy: OnFailure
+          volumes:
+          - name: backup-volume
+            hostPath:
+              path: /tmp/backup
+              type: DirectoryOrCreate
