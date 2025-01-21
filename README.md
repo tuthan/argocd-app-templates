@@ -49,15 +49,9 @@ This repository contains Helm templates for ArgoCD. After being bootstrapped usi
 
 ### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/tuthan/argocd-app-templates.git
-   cd argocd-helm-template
-   ```
+1. Customize the `values.yaml` or/and `version.yaml` file to match your environment and requirements. See https://github.com/tuthan/multi-cloud-agnostic-sample/tree/main/k8s 
 
-2. Customize the `values.yaml` or/and `version.yaml` file to match your environment and requirements. See https://github.com/tuthan/multi-cloud-agnostic-sample/tree/main/k8s 
-
-3. Deploy the application with ArgoCD. See https://github.com/tuthan/multi-cloud-agnostic-sample/
+2. Deploy the application with ArgoCD. See https://github.com/tuthan/multi-cloud-agnostic-sample/
 
 ### 🔗 Accessing Components
 
@@ -68,41 +62,25 @@ This repository contains Helm templates for ArgoCD. After being bootstrapped usi
 ## ⚙️ Configuration
 
 All configurations are handled via the `values.yaml` file. Below are some key sections to modify:
+- **App**: This is the parent argocd application that is the house of other child resources
 
 - **MongoDB Operator**: 
   ```yaml
   mongodbOperator:
-    enabled: true
-    namespace: mongodb-operator
+    namespace: mongodb
   ```
 
 - **MongoDB Instance**:
   ```yaml
   mongodb:
     replicas: 3
-    storageSize: 10Gi
-  ```
-
-- **Observability**:
-  ```yaml
-  observability:
-    prometheus:
-      enabled: true
-    elasticsearch:
-      enabled: true
-    grafana:
-      enabled: true
   ```
 
 - **Utilities**:
   ```yaml
-  utilities:
-    fluentd:
-      enabled: true
-    mongodump:
-      schedule: "0 2 * * *"  # Daily backup at 2 AM
-    certManager:
-      enabled: true
+    db-backup:
+      schedule: "0 2 * * *" 
+      mdbConnectionSecret: "mongodb-admin-my-user" # Daily backup at 2 AM
   ```
 
 ## 🤝 Run-test.sh
