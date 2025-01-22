@@ -11,6 +11,13 @@ spec:
     - repoURL: {{ .Values.deploy.chartRepoUrl }}
       chart: community-operator
       targetRevision: {{ .Values.deploy.chartRevision }}
+      helm:
+        valuesObject:
+          resource:
+            tls:
+              enabled: {{ .Values.deploy.enableTls }}
+              useCertManager: {{ .Values.deploy.enableTls }}
+
   destination:
     name: ""
     namespace: {{ .Values.deploy.namespace }}
